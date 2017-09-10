@@ -46,7 +46,7 @@ namespace PongGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            paddle = new Paddle(Content.Load<Texture2D>("paddle"), Vector2.Zero);
+            paddle = new Paddle(Content.Load<Texture2D>("paddle"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height));
         }
 
         /// <summary>
@@ -68,6 +68,7 @@ namespace PongGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            paddle.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
