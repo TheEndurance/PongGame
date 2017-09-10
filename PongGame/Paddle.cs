@@ -35,13 +35,16 @@ namespace PongGame
     public abstract class Sprite
     {
         protected readonly Texture2D Texture;
-        protected Vector2 Location;
-        protected Vector2 Velocity = Vector2.Zero;
+        public Vector2 Location;
+        public int Width { get { return Texture.Width; } }
+        public int Height { get { return Texture.Height; } }
+        public Vector2 Velocity { get; protected set; }
 
         protected Sprite(Texture2D texture, Vector2 location)
         {
             Texture = texture;
             Location = location;
+            Velocity = Vector2.Zero;
         }
 
         public void Draw(SpriteBatch spriteBatch)

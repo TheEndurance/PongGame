@@ -15,6 +15,7 @@ namespace PongGame
         SpriteBatch spriteBatch;
 
         private Paddle paddle;
+        private Ball ball;
 
 
         public Game1()
@@ -47,6 +48,8 @@ namespace PongGame
 
             // TODO: use this.Content to load your game content here
             paddle = new Paddle(Content.Load<Texture2D>("paddle"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height));
+            ball = new Ball(Content.Load<Texture2D>("ball"), Vector2.Zero);
+            ball.AttachTo(paddle);
         }
 
         /// <summary>
@@ -69,6 +72,7 @@ namespace PongGame
                 Exit();
 
             paddle.Update(gameTime);
+            ball.Update(gameTime);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -85,6 +89,7 @@ namespace PongGame
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             paddle.Draw(spriteBatch);
+            ball.Draw(spriteBatch);
             spriteBatch.End();
 
 
