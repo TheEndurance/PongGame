@@ -4,60 +4,47 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PongGame
 {
+    public enum PlayerTypes
+    {
+        Human,
+        Computer
+    }
     public class Paddle : Sprite
     {
-        private readonly Rectangle _screenBounds;
-
-        public Paddle(Texture2D texture, Vector2 location, Rectangle screenBounds) : base(texture, location)
+        private readonly PlayerTypes playerType;
+        public Paddle(Texture2D texture, Vector2 location, Rectangle screenBounds, PlayerTypes playerType) : base(texture, location, screenBounds)
         {
-            _screenBounds = screenBounds;
+            this.playerType = playerType;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, GameObjects gameObject)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                Velocity = new Vector2(0, -3f);
+            if (playerType == PlayerTypes.Computer)
+            {
+                if (gameObject.Ball.Location.Y + gameObject.Ball.Height < Location.Y)
+                    Velocity = new Vector2(0, -3f);
+                if (gameObject.Ball.Location.Y > Location.Y + Height)
+                    Velocity = new Vector2(0, 3f);
+            }
+            if (playerType == PlayerTypes.Human)
+            {
+                if (Keyboard.GetState().IsKeyDown(Keys.Left))
+                    Velocity = new Vector2(0, -3f);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                Velocity = new Vector2(0, 3f);
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                    Velocity = new Vector2(0, 3f);
+            }
 
 
-            base.Update(gameTime); //this updates the location
+            base.Update(gameTime, gameObject); //this updates the location
         }
 
         protected override void CheckBounds()
         {
-            //if our location.Y is between 0 and the screenbound height - paddle height, then its fine, else it will be set to either to 0, or screenbound.height-texture.height
-            Location.Y = MathHelper.Clamp(Location.Y, 0, _screenBounds.Height - Texture.Height);
+            //if our location.Y is between 0 and the screenbound height - playerPaddle height, then its fine, else it will be set to either to 0, or screenbound.height-texture.height
+            Location.Y = MathHelper.Clamp(Location.Y, 0, GameBoundaries.Height - this.Height);
         }
     }
 
-    public abstract class Sprite
-    {
-        protected readonly Texture2D Texture;
-        public Vector2 Location;
-        public int Width { get { return Texture.Width; } }
-        public int Height { get { return Texture.Height; } }
-        public Vector2 Velocity { get; protected set; }
 
-        protected Sprite(Texture2D texture, Vector2 location)
-        {
-            Texture = texture;
-            Location = location;
-            Velocity = Vector2.Zero;
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(Texture, Location, Color.White);
-        }
-
-        public virtual void Update(GameTime gameTime)
-        {
-            Location += Velocity;
-            CheckBounds();
-        }
-
-        protected abstract void CheckBounds();
-    }
 }
