@@ -19,6 +19,8 @@ namespace PongGame
         private Paddle playerPaddle;
         private Paddle computerPaddle;
         private Ball ball;
+        private Score score;
+
 
 
         public Game1()
@@ -60,10 +62,13 @@ namespace PongGame
             computerPaddle = new Paddle(paddleTexture, computerPaddleLocation, gameBoundaries, PlayerTypes.Computer);
 
             ball = new Ball(Content.Load<Texture2D>("ball"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height));
-
             ball.AttachTo(playerPaddle);
 
-            gameObjects = new GameObjects { PlayerPaddle = playerPaddle, ComputerPaddle = computerPaddle, Ball = ball };
+            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries);
+
+
+
+            gameObjects = new GameObjects { Score = score, PlayerPaddle = playerPaddle, ComputerPaddle = computerPaddle, Ball = ball };
         }
 
         /// <summary>
@@ -89,6 +94,7 @@ namespace PongGame
             playerPaddle.Update(gameTime, gameObjects);
             computerPaddle.Update(gameTime, gameObjects);
             ball.Update(gameTime, gameObjects);
+            score.Update(gameTime, gameObjects);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -107,6 +113,7 @@ namespace PongGame
             playerPaddle.Draw(spriteBatch);
             computerPaddle.Draw(spriteBatch);
             ball.Draw(spriteBatch);
+            score.Draw(spriteBatch);
             spriteBatch.End();
 
 

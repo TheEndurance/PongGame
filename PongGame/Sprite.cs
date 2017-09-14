@@ -11,6 +11,11 @@ namespace PongGame
         public int Height { get { return Texture.Height; } }
         public Vector2 Velocity { get; protected set; }
 
+        public Rectangle BoundingBox
+        {
+            get { return new Rectangle((int)Location.X, (int)Location.Y, Width, Height); }
+        }
+
         public Rectangle GameBoundaries { get; }
 
         protected Sprite(Texture2D texture, Vector2 location, Rectangle gameBoundaries)

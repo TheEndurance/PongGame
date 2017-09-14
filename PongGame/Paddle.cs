@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -21,18 +22,20 @@ namespace PongGame
         {
             if (playerType == PlayerTypes.Computer)
             {
-                if (gameObject.Ball.Location.Y + gameObject.Ball.Height < Location.Y)
-                    Velocity = new Vector2(0, -3f);
-                if (gameObject.Ball.Location.Y > Location.Y + Height)
-                    Velocity = new Vector2(0, 3f);
+                var random = new Random();
+                var reactionThreshold = random.Next(30, 60);
+                if (gameObject.Ball.Location.Y + gameObject.Ball.Height < Location.Y - reactionThreshold)
+                    Velocity = new Vector2(0, -6.5f);
+                if (gameObject.Ball.Location.Y > Location.Y + Height + reactionThreshold)
+                    Velocity = new Vector2(0, 6.5f);
             }
             if (playerType == PlayerTypes.Human)
             {
                 if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                    Velocity = new Vector2(0, -3f);
+                    Velocity = new Vector2(0, -6.5f);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                    Velocity = new Vector2(0, 3f);
+                    Velocity = new Vector2(0, 6.5f);
             }
 
 
