@@ -7,57 +7,53 @@ namespace PongGame
 {
     public class Ball : Sprite
     {
-        private Paddle AttachedToPaddle;
-        public Ball(Texture2D texture, Vector2 location, Rectangle gameBoundaries) : base(texture, location, gameBoundaries)
-        {
+        private readonly InputHandler _inputHandler;
 
+        public Ball(Texture2D texture, Vector2 location, Rectangle gameBoundaries, InputHandler inputHandler) : base(texture, location, gameBoundaries)
+        {
+            _inputHandler = inputHandler;
         }
 
         public override void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && AttachedToPaddle != null)
+            //if (Keyboard.GetState().IsKeyDown(Keys.Space) && AttachedToPaddle != null)
+            //{
+            //    Vector2 newVelocity;
+            //    var rand = new Random();   
+            //    var direction = rand.Next(0, 2);
+            //    if (direction == 0)
+            //    {
+            //        newVelocity = new Vector2(9f,5f);
+            //    }
+            //    else
+            //    {
+            //        newVelocity = new Vector2(9f, -5f);
+            //    }
+
+            //    Velocity = newVelocity;
+            //    AttachedToPaddle = null;
+            //}
+            Command command = _inputHandler.HandleInput();
+            command?.Execute(this);
+
+            if (BoundingBox.Intersects(gameObjects.Player1Paddle.BoundingBox))
             {
-                Vector2 newVelocity;
-                var rand = new Random();   
-                var direction = rand.Next(0, 2);
-                if (direction == 0)
+                while (BoundingBox.Intersects(gameObjects.Player1Paddle.BoundingBox))
                 {
-                    newVelocity = new Vector2(9f,5f);
+                    Location = new Vector2(Location.X + 1, Location.Y);
                 }
-                else
-                {
-                    newVelocity = new Vector2(9f, -5f);
-                }
-              
-                Velocity = newVelocity;
-                AttachedToPaddle = null;
+                Velocity = new Vector2(-(Velocity.X), Velocity.Y);
             }
 
-            if (AttachedToPaddle != null)
+            if (BoundingBox.Intersects(gameObjects.Player2Paddle.BoundingBox))
             {
-                Location.X = AttachedToPaddle.Location.X + AttachedToPaddle.Width;
-                Location.Y = AttachedToPaddle.Location.Y;
-            }
-            else
-            {
-                if (BoundingBox.Intersects(gameObjects.PlayerPaddle.BoundingBox))
+                while (BoundingBox.Intersects(gameObjects.Player2Paddle.BoundingBox))
                 {
-                    while (BoundingBox.Intersects(gameObjects.PlayerPaddle.BoundingBox))
-                    {
-                        Location = new Vector2(Location.X +1, Location.Y);
-                    }
-                    Velocity = new Vector2(-(Velocity.X), Velocity.Y);
+                    Location = new Vector2(Location.X - 1, Location.Y);
                 }
+                Velocity = new Vector2(-(Velocity.X), Velocity.Y);
+            }
 
-                if (BoundingBox.Intersects(gameObjects.ComputerPaddle.BoundingBox))
-                {
-                    while (BoundingBox.Intersects(gameObjects.ComputerPaddle.BoundingBox))
-                    {
-                        Location = new Vector2(Location.X - 1, Location.Y);
-                    }
-                    Velocity = new Vector2(-(Velocity.X), Velocity.Y);
-                }
-            }
 
             base.Update(gameTime, gameObjects);
         }
@@ -70,12 +66,9 @@ namespace PongGame
             }
         }
 
-        public void AttachTo(Paddle paddle)
+        public void Release()
         {
-            AttachedToPaddle = paddle;
-
-
-
+            throw new NotImplementedException();
         }
     }
 }

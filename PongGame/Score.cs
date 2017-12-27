@@ -32,13 +32,11 @@ namespace PongGame
             if (gameObjects.Ball.Location.X + gameObjects.Ball.Width < 0)
             {
                 ComputerScore++;
-                gameObjects.Ball.AttachTo(gameObjects.PlayerPaddle);
             }
 
             if (gameObjects.Ball.Location.X > _gameBoundaries.Width)
             {
                 PlayerScore++;
-                gameObjects.Ball.AttachTo(gameObjects.PlayerPaddle);
             }
         }
     }

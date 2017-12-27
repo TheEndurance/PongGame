@@ -12,32 +12,22 @@ namespace PongGame
     }
     public class Paddle : Sprite
     {
-        private readonly PlayerTypes playerType;
-        public Paddle(Texture2D texture, Vector2 location, Rectangle screenBounds, PlayerTypes playerType) : base(texture, location, screenBounds)
+        private readonly InputHandler _inputHandler;
+
+        public Paddle(Texture2D texture, Vector2 location, Rectangle screenBounds,InputHandler inputHandler) : base(texture, location, screenBounds)
         {
-            this.playerType = playerType;
+            _inputHandler = inputHandler;
         }
 
         public override void Update(GameTime gameTime, GameObjects gameObject)
         {
-            if (playerType == PlayerTypes.Computer)
+            Command command = _inputHandler.HandleInput();
+            Velocity = new Vector2(0, 0);
+            if (command != null)
             {
-                var random = new Random();
-                var reactionThreshold = random.Next(30, 60);
-                if (gameObject.Ball.Location.Y + gameObject.Ball.Height < Location.Y - reactionThreshold)
-                    Velocity = new Vector2(0, -6.5f);
-                if (gameObject.Ball.Location.Y > Location.Y + Height + reactionThreshold)
-                    Velocity = new Vector2(0, 6.5f);
+                command.Execute(this);
             }
-            if (playerType == PlayerTypes.Human)
-            {
-                if (Keyboard.GetState().IsKeyDown(Keys.Left))
-                    Velocity = new Vector2(0, -6.5f);
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Right))
-                    Velocity = new Vector2(0, 6.5f);
-            }
-
+            
 
             base.Update(gameTime, gameObject); //this updates the location
         }
@@ -48,6 +38,4 @@ namespace PongGame
             Location.Y = MathHelper.Clamp(Location.Y, 0, GameBoundaries.Height - this.Height);
         }
     }
-
-
 }

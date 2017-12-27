@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -16,12 +18,16 @@ namespace PongGame
 
 
         private GameObjects gameObjects;
-        private Paddle playerPaddle;
+        private GameCommands gameCommands;
+        private InputHandler _player1InputHandler;
+        private InputHandler _player2InputHandler;
+        private InputHandler _ballInputHandler;
+        private Paddle player1Paddle;
+        private Paddle player2Paddle;
         private Paddle computerPaddle;
         private Ball ball;
         private Score score;
-
-
+ 
 
         public Game1()
         {
@@ -52,23 +58,26 @@ namespace PongGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            var gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
-            var paddleTexture = Content.Load<Texture2D>("paddle");
-            var computerPaddleLocation = new Vector2(gameBoundaries.Width - paddleTexture.Width, 0);
+            gameCommands = new GameCommands();
+            Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
+            Texture2D paddleTexture = Content.Load<Texture2D>("paddle");
+            Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - paddleTexture.Width, 0);
+            _player1InputHandler =
+                new InputHandler(new List<Func<Command>> {gameCommands.AKeyAction, gameCommands.ZKeyAction});
+            _player2InputHandler =
+                new InputHandler(new List<Func<Command>> {gameCommands.UpKeyAction, gameCommands.DownKeyAction});
+            _ballInputHandler = new InputHandler(new List<Func<Command>> {gameCommands.ReleaseBall});
+            
+
+            player1Paddle = new Paddle(paddleTexture, Vector2.Zero, gameBoundaries,_player1InputHandler);
+            player2Paddle = new Paddle(paddleTexture,player2PaddleLocation, gameBoundaries,_player2InputHandler);
 
 
-            playerPaddle = new Paddle(paddleTexture, Vector2.Zero, gameBoundaries, PlayerTypes.Human);
-
-            computerPaddle = new Paddle(paddleTexture, computerPaddleLocation, gameBoundaries, PlayerTypes.Computer);
-
-            ball = new Ball(Content.Load<Texture2D>("ball"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height));
-            ball.AttachTo(playerPaddle);
+            ball = new Ball(Content.Load<Texture2D>("ball"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
 
             score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries);
 
-
-
-            gameObjects = new GameObjects { Score = score, PlayerPaddle = playerPaddle, ComputerPaddle = computerPaddle, Ball = ball };
+            gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
         }
 
         /// <summary>
@@ -91,8 +100,8 @@ namespace PongGame
                 Exit();
 
 
-            playerPaddle.Update(gameTime, gameObjects);
-            computerPaddle.Update(gameTime, gameObjects);
+            player1Paddle.Update(gameTime, gameObjects);
+            player2Paddle.Update(gameTime, gameObjects);
             ball.Update(gameTime, gameObjects);
             score.Update(gameTime, gameObjects);
             // TODO: Add your update logic here
@@ -110,8 +119,8 @@ namespace PongGame
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            playerPaddle.Draw(spriteBatch);
-            computerPaddle.Draw(spriteBatch);
+            player1Paddle.Draw(spriteBatch);
+            player2Paddle.Draw(spriteBatch);
             ball.Draw(spriteBatch);
             score.Draw(spriteBatch);
             spriteBatch.End();

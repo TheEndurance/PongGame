@@ -9,7 +9,7 @@ namespace PongGame
         public Vector2 Location;
         public int Width { get { return Texture.Width; } }
         public int Height { get { return Texture.Height; } }
-        public Vector2 Velocity { get; protected set; }
+        public Vector2 Velocity { get; set; }
 
         public Rectangle BoundingBox
         {
@@ -38,6 +38,10 @@ namespace PongGame
         }
 
         protected abstract void CheckBounds();
+
+
+
+
     }
 
 
