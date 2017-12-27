@@ -7,10 +7,9 @@ namespace PongGame
     public class Score
     {
         private const int MAX_SCORE = 2;
-        private bool showGameWonText;
-        private double timeSinceGameWon = 0d;
         private readonly SpriteFont _font;
         private readonly Rectangle _gameBoundaries;
+        private readonly GameStateManager _gameStateManager;
 
         public string Player1Name { get; set; }
         public string Player2Name { get; set; }
@@ -18,29 +17,29 @@ namespace PongGame
         public int Player2Score { get; set; }
 
 
-        public Score(SpriteFont font, Rectangle gameBoundaries,string player1Name,string player2Name)
+        public Score(SpriteFont font, Rectangle gameBoundaries,GameStateManager gameStateManager,string player1Name,string player2Name)
         {
             _font = font;
             _gameBoundaries = gameBoundaries;
+            _gameStateManager = gameStateManager;
             Player1Name = player1Name;
             Player2Name = player2Name;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            var scoreText = $"{Player1Score} {Player1Name} : {Player2Name} {Player2Score}";
-            var xPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
-            var position = new Vector2(xPosition, _gameBoundaries.Height - 50);
+            string scoreText = $"{Player1Score} {Player1Name} : {Player2Name} {Player2Score}";
+            float scoreTextXPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
+            Vector2 scoreTextposition = new Vector2(scoreTextXPosition, _gameBoundaries.Height - 50);
 
-            spriteBatch.DrawString(_font, scoreText, position, Color.Black);
+            spriteBatch.DrawString(_font, scoreText, scoreTextposition, Color.Black);
 
-            if (showGameWonText)
+            if (_gameStateManager.GameState == GameState.GameOver)
             {
                 string wonGameText = $"{WhoWonGame()} won the game!";
-                var x = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
-                var wonPosition = new Vector2(xPosition, _gameBoundaries.Height/2);
-
-                spriteBatch.DrawString(_font, wonGameText, wonPosition, Color.Black);
+                float wonGameXPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
+                Vector2 wonGamePosition = new Vector2(wonGameXPosition, _gameBoundaries.Height/2);
+                spriteBatch.DrawString(_font, wonGameText, wonGamePosition, Color.Black);
             }
         }
 
@@ -61,25 +60,20 @@ namespace PongGame
 
             if (Player1Score == MAX_SCORE)
             {
-                GameWon(gameTime.ElapsedGameTime.TotalSeconds);
+                GameWon();
             }
             if (Player2Score == MAX_SCORE)
             {
-                GameWon(gameTime.ElapsedGameTime.TotalSeconds);
+                GameWon();
             }
         }
 
-        public void GameWon( double totalSeconds)
+        private void GameWon()
         {
-            showGameWonText = true;
-            timeSinceGameWon += totalSeconds;
-            if (timeSinceGameWon > 2d)
-            {
-                ResetScores();
-            }
+            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs{GameState = GameState.GameOver});
         }
 
-        public string WhoWonGame()
+        private string WhoWonGame()
         {
             if (Player1Score == MAX_SCORE)
             {
@@ -92,12 +86,10 @@ namespace PongGame
             return null;
         }
 
-        public void ResetScores()
+        private void ResetScores()
         {
             Player1Score = 0;
             Player2Score = 0;
-            timeSinceGameWon = 0d;
-            showGameWonText = false;
         }
     }
 }

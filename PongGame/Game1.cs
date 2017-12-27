@@ -17,6 +17,7 @@ namespace PongGame
         SpriteBatch spriteBatch;
 
 
+        public GameStateManager GameStateManager;
         private GameObjects gameObjects;
         private GameCommands gameCommands;
         private InputHandler _player1InputHandler;
@@ -44,6 +45,8 @@ namespace PongGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            gameCommands = new GameCommands();
+            GameStateManager = new GameStateManager(new InputHandler(new List<Func<Command>>{gameCommands.SpaceBarResetGameAction}));
             IsMouseVisible = true;
             base.Initialize();
         }
@@ -58,7 +61,7 @@ namespace PongGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            gameCommands = new GameCommands();
+            
             Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
             Texture2D paddleTexture = Content.Load<Texture2D>("paddle");
             Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - paddleTexture.Width, 0);
@@ -75,7 +78,7 @@ namespace PongGame
 
             ball = new Ball(Content.Load<Texture2D>("ball"), new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
 
-            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries,"Rawa Jalal","Satoshi Nakamoto");
+            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
 
             gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
         }
@@ -99,12 +102,17 @@ namespace PongGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            if (GameStateManager.GameState == GameState.GameActive)
+            {
+                player1Paddle.Update(gameTime, gameObjects);
+                player2Paddle.Update(gameTime, gameObjects);
+                ball.Update(gameTime, gameObjects);
+            }
 
-            player1Paddle.Update(gameTime, gameObjects);
-            player2Paddle.Update(gameTime, gameObjects);
-            ball.Update(gameTime, gameObjects);
             score.Update(gameTime, gameObjects);
+            
             // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }

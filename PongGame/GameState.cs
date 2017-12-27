@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace PongGame
 {
-    public abstract class Command
+    public enum GameState
     {
-        public abstract void Execute(Sprite sprite);
-        public abstract void Execute();
+        GameActive,
+        GameOver
     }
 }

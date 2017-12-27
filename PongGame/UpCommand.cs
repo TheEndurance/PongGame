@@ -19,5 +19,10 @@ namespace PongGame
         {
             sprite.Velocity = new Vector2(sprite.Velocity.X, _upVelocity);
         }
+
+        public override void Execute()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

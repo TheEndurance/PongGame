@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,17 +10,9 @@ namespace PongGame
     {
         private float _moveUpVelocity = -6.5f;
         private float _moveDownVelocity = 6.5f;
-        private readonly UpCommand _upCommand;
-        private readonly DownCommand _downCommand;
-        private readonly ReleaseCommand _releaseCommand;
-        private readonly StopCommand _stopCommand;
 
         public GameCommands()
         {
-            _upCommand = new UpCommand(_moveUpVelocity);
-            _downCommand = new DownCommand(_moveDownVelocity);
-            _releaseCommand = new ReleaseCommand();
-            _stopCommand = new StopCommand();
 
         }
 
@@ -29,7 +20,7 @@ namespace PongGame
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                return _releaseCommand;
+                return new ReleaseCommand();
             }
             return null;
         }
@@ -38,7 +29,7 @@ namespace PongGame
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                return _upCommand;
+                return new UpCommand(_moveUpVelocity);
             }
             return null;
         }
@@ -46,7 +37,7 @@ namespace PongGame
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                return _downCommand;
+                return new DownCommand(_moveDownVelocity);
             }
             return null;
         }
@@ -54,7 +45,7 @@ namespace PongGame
         {
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                return _upCommand;
+                return new UpCommand(_moveUpVelocity);
             }
             return null;
         }
@@ -63,7 +54,15 @@ namespace PongGame
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Z))
             {
-                return _downCommand;
+                return new DownCommand(_moveDownVelocity);
+            }
+            return null;
+        }
+        public Command SpaceBarResetGameAction ()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                return new ResetGameCommand();
             }
             return null;
         }
