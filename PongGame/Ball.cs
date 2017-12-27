@@ -8,10 +8,12 @@ namespace PongGame
     public class Ball : Sprite
     {
         private readonly InputHandler _inputHandler;
+        private readonly Vector2 _initialLocation;
 
         public Ball(Texture2D texture, Vector2 location, Rectangle gameBoundaries, InputHandler inputHandler) : base(texture, location, gameBoundaries)
         {
             _inputHandler = inputHandler;
+            _initialLocation = location;
         }
 
         public override void Update(GameTime gameTime, GameObjects gameObjects)
@@ -54,7 +56,7 @@ namespace PongGame
                 Velocity = new Vector2(-(Velocity.X), Velocity.Y);
             }
 
-
+   
             base.Update(gameTime, gameObjects);
         }
 
@@ -66,9 +68,10 @@ namespace PongGame
             }
         }
 
-        public void Release()
+        public void ResetBall()
         {
-            throw new NotImplementedException();
+            Velocity = new Vector2(0, 0);
+            Location = _initialLocation;
         }
     }
 }

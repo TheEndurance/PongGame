@@ -73,9 +73,9 @@ namespace PongGame
             player2Paddle = new Paddle(paddleTexture,player2PaddleLocation, gameBoundaries,_player2InputHandler);
 
 
-            ball = new Ball(Content.Load<Texture2D>("ball"), Vector2.Zero, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
+            ball = new Ball(Content.Load<Texture2D>("ball"), new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
 
-            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries);
+            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries,"Rawa Jalal","Satoshi Nakamoto");
 
             gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
         }
