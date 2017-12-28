@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +21,10 @@ namespace PongGame
 
         public delegate void GameUpdatedHandler(object sender, GameUpdatedEventArgs e);
 
+        public delegate void SoundUpdatedHandler(object sender, SoundUpdatedEventArgs e);
+
+        public event SoundUpdatedHandler SoundUpdated;
+
         public event GameUpdatedHandler GameUpdated;
 
         public void OnGameUpdated(GameUpdatedEventArgs args)
@@ -32,5 +35,12 @@ namespace PongGame
             }
         }
 
+        public void OnSoundUpdated(SoundUpdatedEventArgs args)
+        {
+            if (SoundUpdated != null)
+            {
+                SoundUpdated.Invoke(this, args);
+            }
+        }
     }
 }

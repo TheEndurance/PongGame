@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PongGame
+namespace PongGame.InputCommands
 {
     public class ResetGameCommand : Command
     {

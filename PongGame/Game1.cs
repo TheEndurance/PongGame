@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PongGame.InputCommands;
 
 namespace PongGame
 {
@@ -17,7 +19,9 @@ namespace PongGame
         SpriteBatch spriteBatch;
 
 
+
         public GameStateManager GameStateManager;
+        private SoundManager soundManager;
         private GameObjects gameObjects;
         private GameCommands gameCommands;
         private InputHandler _player1InputHandler;
@@ -28,6 +32,9 @@ namespace PongGame
         private Paddle computerPaddle;
         private Ball ball;
         private Score score;
+        private SoundEffect paddleBallHit;
+        private SoundEffect playerScored;
+        private SoundEffect applause;
  
 
         public Game1()
@@ -62,24 +69,35 @@ namespace PongGame
 
             // TODO: use this.Content to load your game content here
             
-            Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
+            //Sounds
+            paddleBallHit = Content.Load<SoundEffect>("sounds/click");
+            playerScored = Content.Load<SoundEffect>("sounds/ding");
+            applause = Content.Load<SoundEffect>("sounds/applause1");
+
+            soundManager = new SoundManager(paddleBallHit, playerScored, applause);
+
+            //Textures
             Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/BatLeft");
             Texture2D RightPaddleTexture = Content.Load<Texture2D>("images/BatRight");
+            Texture2D ballTexture = Content.Load<Texture2D>("images/Ball");
+            SpriteFont spriteFont = Content.Load<SpriteFont>("fonts/SpriteFont1");
+
+            //Game boundary and starting locations
+            Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
             Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - RightPaddleTexture.Width, 0);
+
+            //Input handlers
             _player1InputHandler =
                 new InputHandler(new List<Func<Command>> {gameCommands.AKeyAction, gameCommands.ZKeyAction});
             _player2InputHandler =
                 new InputHandler(new List<Func<Command>> {gameCommands.UpKeyAction, gameCommands.DownKeyAction});
             _ballInputHandler = new InputHandler(new List<Func<Command>> {gameCommands.ReleaseBall});
-            
-
+           
+            //Game objects
             player1Paddle = new Paddle(leftPaddleTexture, Vector2.Zero, gameBoundaries,_player1InputHandler);
             player2Paddle = new Paddle(RightPaddleTexture, player2PaddleLocation, gameBoundaries,_player2InputHandler);
-
-
-            ball = new Ball(Content.Load<Texture2D>("images/Ball"), new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
-
-            score = new Score(Content.Load<SpriteFont>("fonts/SpriteFont1"), gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
+            ball = new Ball(ballTexture, new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
+            score = new Score(spriteFont, gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
 
             gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
 

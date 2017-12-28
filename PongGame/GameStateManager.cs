@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using PongGame.InputCommands;
 
 namespace PongGame
 {
@@ -22,18 +23,6 @@ namespace PongGame
             _mediator.GameUpdated += ManageGameState;
         }
 
-        private void ManageGameState(object sender, GameUpdatedEventArgs e)
-        {
-            if (e.GameState == GameState.PlayerScored)
-            {
-                _mediator.OnGameUpdated(new GameUpdatedEventArgs { GameState = GameState.GameActive });
-            }
-            if (e.GameState == GameState.GameReset)
-            {
-                _mediator.OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameActive});
-            }
-        }
-
         public void Update(GameTime gametime)
         {
             Command command = _inputHandler.HandleInput();
@@ -43,6 +32,19 @@ namespace PongGame
         private void SubscribeToGameUpdates(object sender, GameUpdatedEventArgs e)
         {
             GameState = e.GameState;
+        }
+
+        private void ManageGameState(object sender, GameUpdatedEventArgs e)
+        {
+            switch (e.GameState)
+            {
+                case GameState.PlayerScored:
+                    GameState = GameState.GameActive;
+                    break;
+                case GameState.GameReset:
+                    GameState = GameState.GameActive;
+                    break;
+            }
         }
 
     }

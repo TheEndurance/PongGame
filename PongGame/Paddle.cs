@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PongGame.InputCommands;
 
 namespace PongGame
 {
@@ -22,14 +23,6 @@ namespace PongGame
             Mediator.GetMediator().GameUpdated += GameUpdatedEventHandler;
         }
 
-        private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
-        {
-            if (e.GameState == GameState.GameReset)
-            {
-                ResetPosition();
-            }
-        }
-
         public override void Update(GameTime gameTime, GameObjects gameObject)
         {
             Command command = _inputHandler.HandleInput();
@@ -39,7 +32,6 @@ namespace PongGame
                 command.Execute(this);
             }
             
-
             base.Update(gameTime, gameObject); //this updates the location
         }
 
@@ -52,6 +44,14 @@ namespace PongGame
         public override void ResetPosition()
         {
             Location = _initialLocation;
+        }
+
+        private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
+        {
+            if (e.GameState == GameState.GameReset)
+            {
+                ResetPosition();
+            }
         }
     }
 }

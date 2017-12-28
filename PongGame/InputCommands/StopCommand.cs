@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace PongGame
+namespace PongGame.InputCommands
 {
     public class StopCommand : Command
     {

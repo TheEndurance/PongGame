@@ -54,12 +54,14 @@ namespace PongGame
             if (gameObjects.Ball.Location.X + gameObjects.Ball.Width < 0)
             {
                 _player2Score++;
+                _mediator.OnSoundUpdated(new SoundUpdatedEventArgs { Sound = Sound.PlayerScored });
                 PlayerScored();
             }
 
             if (gameObjects.Ball.Location.X > _gameBoundaries.Width)
             {
                 _player1Score++;
+                _mediator.OnSoundUpdated(new SoundUpdatedEventArgs { Sound = Sound.PlayerScored });
                 PlayerScored();
             }
 
@@ -67,6 +69,7 @@ namespace PongGame
             {
                 if (_player1Score == MAX_SCORE | _player2Score == MAX_SCORE)
                 {
+                    _mediator.OnSoundUpdated(new SoundUpdatedEventArgs {Sound = Sound.GameWon});
                     GameWon();
                 }
             }

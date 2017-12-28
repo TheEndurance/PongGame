@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PongGame.InputCommands;
 
 namespace PongGame
 {
@@ -17,14 +18,6 @@ namespace PongGame
             Mediator.GetMediator().GameUpdated += GameUpdatedEventHandler;
         }
 
-        private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
-        {
-            if (e.GameState == GameState.PlayerScored || e.GameState == GameState.GameReset)
-            {
-                ResetPosition();
-            }
-        }
-
         public override void Update(GameTime gameTime, GameObjects gameObjects)
         {
             Command command = _inputHandler.HandleInput();
@@ -37,6 +30,7 @@ namespace PongGame
                     Location = new Vector2(Location.X + 1, Location.Y);
                 }
                 Velocity = new Vector2(-(Velocity.X), Velocity.Y);
+                Mediator.GetMediator().OnSoundUpdated(new SoundUpdatedEventArgs {Sound = Sound.PaddleBallCollision});
             }
 
             if (BoundingBox.Intersects(gameObjects.Player2Paddle.BoundingBox))
@@ -46,6 +40,7 @@ namespace PongGame
                     Location = new Vector2(Location.X - 1, Location.Y);
                 }
                 Velocity = new Vector2(-(Velocity.X), Velocity.Y);
+                Mediator.GetMediator().OnSoundUpdated(new SoundUpdatedEventArgs { Sound = Sound.PaddleBallCollision });
             }
 
    
@@ -64,6 +59,14 @@ namespace PongGame
         {
             Velocity = new Vector2(0, 0);
             Location = _initialLocation;
+        }
+
+        private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
+        {
+            if (e.GameState == GameState.PlayerScored || e.GameState == GameState.GameReset)
+            {
+                ResetPosition();
+            }
         }
     }
 }

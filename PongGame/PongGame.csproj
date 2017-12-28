@@ -39,25 +39,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Ball.cs" />
-    <Compile Include="Command.cs" />
-    <Compile Include="DownCommand.cs" />
+    <Compile Include="InputCommands\Command.cs" />
+    <Compile Include="InputCommands\DownCommand.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="GameCommands.cs" />
+    <Compile Include="InputCommands\GameCommands.cs" />
     <Compile Include="GameObjects.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameStateManager.cs" />
     <Compile Include="GameUpdatedEventArgs.cs" />
-    <Compile Include="InputHandler.cs" />
+    <Compile Include="InputCommands\InputHandler.cs" />
     <Compile Include="Mediator.cs" />
     <Compile Include="Paddle.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReleaseCommand.cs" />
-    <Compile Include="ResetGameCommand.cs" />
+    <Compile Include="InputCommands\ReleaseCommand.cs" />
+    <Compile Include="InputCommands\ResetGameCommand.cs" />
     <Compile Include="Score.cs" />
+    <Compile Include="SoundManager.cs" />
+    <Compile Include="Sound.cs" />
+    <Compile Include="SoundUpdatedEventArgs.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="StopCommand.cs" />
-    <Compile Include="UpCommand.cs" />
+    <Compile Include="InputCommands\StopCommand.cs" />
+    <Compile Include="InputCommands\UpCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
