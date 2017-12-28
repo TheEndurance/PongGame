@@ -24,7 +24,9 @@ namespace PongGame
             _gameStateManager = gameStateManager;
             Player1Name = player1Name;
             Player2Name = player2Name;
+            Mediator.GetMediator().GameUpdated += ResetScoreEventHandler;
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -58,13 +60,22 @@ namespace PongGame
                 gameObjects.Ball.ResetBall();
             }
 
-            if (Player1Score == MAX_SCORE)
+            if (_gameStateManager.GameState == GameState.GameActive)
             {
-                GameWon();
+                if (Player1Score == MAX_SCORE | Player2Score == MAX_SCORE)
+                {
+                    GameWon();
+                }
             }
-            if (Player2Score == MAX_SCORE)
+
+        }
+
+        private void ResetScoreEventHandler(object sender, GameUpdatedEventArgs e)
+        {
+            if (e.GameState == GameState.GameActive)
             {
-                GameWon();
+                Player1Score = 0;
+                Player2Score = 0;
             }
         }
 
@@ -84,12 +95,6 @@ namespace PongGame
                 return Player2Name;
             }
             return null;
-        }
-
-        private void ResetScores()
-        {
-            Player1Score = 0;
-            Player2Score = 0;
         }
     }
 }

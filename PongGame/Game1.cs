@@ -109,6 +109,7 @@ namespace PongGame
                 ball.Update(gameTime, gameObjects);
             }
 
+            GameStateManager.Update(gameTime);
             score.Update(gameTime, gameObjects);
             
             // TODO: Add your update logic here
