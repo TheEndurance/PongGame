@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PongGame
+namespace PongGame.GameObjects
 {
     public abstract class Sprite
     {

@@ -1,4 +1,4 @@
-﻿namespace PongGame
+﻿namespace PongGame.GameObjects
 {
     public class GameObjects
     {

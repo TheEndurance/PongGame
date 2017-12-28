@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using PongGame.GameObjects;
 
 namespace PongGame.InputCommands
 {

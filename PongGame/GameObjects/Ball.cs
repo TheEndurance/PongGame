@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using PongGame.GameState;
 using PongGame.InputCommands;
+using PongGame.SoundState;
 
-namespace PongGame
+namespace PongGame.GameObjects
 {
     public class Ball : Sprite
     {
@@ -63,7 +63,7 @@ namespace PongGame
 
         private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
         {
-            if (e.GameState == GameState.PlayerScored || e.GameState == GameState.GameReset)
+            if (e.GameState == GameState.GameState.PlayerScored || e.GameState == GameState.GameState.GameReset)
             {
                 ResetPosition();
             }

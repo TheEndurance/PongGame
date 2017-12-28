@@ -4,7 +4,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using PongGame.GameObjects;
+using PongGame.GameState;
 using PongGame.InputCommands;
+using PongGame.SoundState;
 
 namespace PongGame
 {
@@ -22,7 +25,7 @@ namespace PongGame
 
         public GameStateManager GameStateManager;
         private SoundManager soundManager;
-        private GameObjects gameObjects;
+        private GameObjects.GameObjects gameObjects;
         private GameCommands gameCommands;
         private InputHandler _player1InputHandler;
         private InputHandler _player2InputHandler;
@@ -99,7 +102,7 @@ namespace PongGame
             ball = new Ball(ballTexture, new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
             score = new Score(spriteFont, gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
 
-            gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
+            gameObjects = new GameObjects.GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
 
 
 
@@ -124,7 +127,7 @@ namespace PongGame
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if (GameStateManager.GameState == GameState.GameActive)
+            if (GameStateManager.GameState == GameState.GameState.GameActive)
             {
                 player1Paddle.Update(gameTime, gameObjects);
                 player2Paddle.Update(gameTime, gameObjects);
@@ -134,7 +137,6 @@ namespace PongGame
             GameStateManager.Update(gameTime);
             score.Update(gameTime, gameObjects);
             
-            // TODO: Add your update logic here
 
 
             base.Update(gameTime);

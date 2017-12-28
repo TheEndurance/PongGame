@@ -1,4 +1,4 @@
-﻿namespace PongGame
+﻿namespace PongGame.SoundState
 {
     public enum Sound
     {

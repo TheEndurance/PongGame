@@ -1,4 +1,6 @@
-﻿namespace PongGame.InputCommands
+﻿using PongGame.GameObjects;
+
+namespace PongGame.InputCommands
 {
     public abstract class Command
     {

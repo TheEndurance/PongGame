@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using PongGame.GameState;
+using PongGame.SoundState;
 
-namespace PongGame
+namespace PongGame.GameObjects
 {
     public class Score
     {
@@ -39,7 +40,7 @@ namespace PongGame
 
             spriteBatch.DrawString(_font, scoreText, scoreTextposition, Color.Black);
 
-            if (_gameStateManager.GameState == GameState.GameOver)
+            if (_gameStateManager.GameState == GameState.GameState.GameOver)
             {
                 string wonGameText = $"{WhoWonGame()} won the game!";
                 float wonGameXPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
@@ -65,7 +66,7 @@ namespace PongGame
                 PlayerScored();
             }
 
-            if (_gameStateManager.GameState == GameState.GameActive)
+            if (_gameStateManager.GameState == GameState.GameState.GameActive)
             {
                 if (_player1Score == MAX_SCORE | _player2Score == MAX_SCORE)
                 {
@@ -78,7 +79,7 @@ namespace PongGame
 
         private void ResetScoreEventHandler(object sender, GameUpdatedEventArgs e)
         {
-            if (e.GameState == GameState.GameReset)
+            if (e.GameState == GameState.GameState.GameReset)
             {
                 _player1Score = 0;
                 _player2Score = 0;
@@ -87,12 +88,12 @@ namespace PongGame
 
         private void PlayerScored()
         {
-            _mediator.OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.PlayerScored});
+            _mediator.OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameState.PlayerScored});
         }
 
         private void GameWon()
         {
-            _mediator.OnGameUpdated(new GameUpdatedEventArgs{GameState = GameState.GameOver});
+            _mediator.OnGameUpdated(new GameUpdatedEventArgs{GameState = GameState.GameState.GameOver});
         }
 
         private string WhoWonGame()

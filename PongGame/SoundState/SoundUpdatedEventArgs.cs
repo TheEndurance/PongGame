@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PongGame
+namespace PongGame.SoundState
 {
     public class SoundUpdatedEventArgs : EventArgs
     {

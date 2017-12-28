@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PongGame
+namespace PongGame.GameState
 {
     public class GameUpdatedEventArgs : EventArgs
     {

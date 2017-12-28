@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using PongGame.InputCommands;
 
-namespace PongGame
+namespace PongGame.GameState
 {
     public class GameStateManager
     {
         private Mediator _mediator = Mediator.GetMediator();
         private readonly InputHandler _inputHandler;
-        private GameObjects _gameObjects;
+        private GameObjects.GameObjects _gameObjects;
         public GameState GameState { get; private set; }
 
         public GameStateManager(InputHandler inputHandler)

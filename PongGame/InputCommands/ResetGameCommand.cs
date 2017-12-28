@@ -1,4 +1,6 @@
 ﻿using System;
+using PongGame.GameObjects;
+using PongGame.GameState;
 
 namespace PongGame.InputCommands
 {
@@ -11,7 +13,7 @@ namespace PongGame.InputCommands
 
         public override void Execute()
         {
-            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameReset});
+            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameState.GameReset});
         }
     }
 }
