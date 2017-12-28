@@ -39,7 +39,7 @@ namespace PongGame
 
         protected abstract void CheckBounds();
 
-
+        public abstract void ResetPosition();
 
 
     }

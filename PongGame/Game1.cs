@@ -63,8 +63,9 @@ namespace PongGame
             // TODO: use this.Content to load your game content here
             
             Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
-            Texture2D paddleTexture = Content.Load<Texture2D>("paddle");
-            Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - paddleTexture.Width, 0);
+            Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/BatLeft");
+            Texture2D RightPaddleTexture = Content.Load<Texture2D>("images/BatRight");
+            Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - RightPaddleTexture.Width, 0);
             _player1InputHandler =
                 new InputHandler(new List<Func<Command>> {gameCommands.AKeyAction, gameCommands.ZKeyAction});
             _player2InputHandler =
@@ -72,15 +73,18 @@ namespace PongGame
             _ballInputHandler = new InputHandler(new List<Func<Command>> {gameCommands.ReleaseBall});
             
 
-            player1Paddle = new Paddle(paddleTexture, Vector2.Zero, gameBoundaries,_player1InputHandler);
-            player2Paddle = new Paddle(paddleTexture,player2PaddleLocation, gameBoundaries,_player2InputHandler);
+            player1Paddle = new Paddle(leftPaddleTexture, Vector2.Zero, gameBoundaries,_player1InputHandler);
+            player2Paddle = new Paddle(RightPaddleTexture, player2PaddleLocation, gameBoundaries,_player2InputHandler);
 
 
-            ball = new Ball(Content.Load<Texture2D>("ball"), new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
+            ball = new Ball(Content.Load<Texture2D>("images/Ball"), new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
 
-            score = new Score(Content.Load<SpriteFont>("GameFont"), gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
+            score = new Score(Content.Load<SpriteFont>("fonts/SpriteFont1"), gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
 
             gameObjects = new GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
+
+
+
         }
 
         /// <summary>

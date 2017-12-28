@@ -11,7 +11,7 @@ namespace PongGame
 
         public override void Execute()
         {
-            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameActive});
+            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameReset});
         }
     }
 }

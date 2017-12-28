@@ -9,14 +9,29 @@ namespace PongGame
 {
     public class GameStateManager
     {
+        private Mediator _mediator = Mediator.GetMediator();
         private readonly InputHandler _inputHandler;
+        private GameObjects _gameObjects;
         public GameState GameState { get; private set; }
 
         public GameStateManager(InputHandler inputHandler)
         {
             _inputHandler = inputHandler;
             GameState = GameState.GameActive;
-            Mediator.GetMediator().GameUpdated += SubscribeToGameUpdates;
+            _mediator.GameUpdated += SubscribeToGameUpdates;
+            _mediator.GameUpdated += ManageGameState;
+        }
+
+        private void ManageGameState(object sender, GameUpdatedEventArgs e)
+        {
+            if (e.GameState == GameState.PlayerScored)
+            {
+                _mediator.OnGameUpdated(new GameUpdatedEventArgs { GameState = GameState.GameActive });
+            }
+            if (e.GameState == GameState.GameReset)
+            {
+                _mediator.OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameActive});
+            }
         }
 
         public void Update(GameTime gametime)

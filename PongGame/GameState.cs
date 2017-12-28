@@ -9,6 +9,8 @@ namespace PongGame
     public enum GameState
     {
         GameActive,
-        GameOver
+        GameOver,
+        PlayerScored,
+        GameReset
     }
 }

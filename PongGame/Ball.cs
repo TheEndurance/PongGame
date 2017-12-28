@@ -14,27 +14,19 @@ namespace PongGame
         {
             _inputHandler = inputHandler;
             _initialLocation = location;
+            Mediator.GetMediator().GameUpdated += GameUpdatedEventHandler;
+        }
+
+        private void GameUpdatedEventHandler(object sender, GameUpdatedEventArgs e)
+        {
+            if (e.GameState == GameState.PlayerScored || e.GameState == GameState.GameReset)
+            {
+                ResetPosition();
+            }
         }
 
         public override void Update(GameTime gameTime, GameObjects gameObjects)
         {
-            //if (Keyboard.GetState().IsKeyDown(Keys.Space) && AttachedToPaddle != null)
-            //{
-            //    Vector2 newVelocity;
-            //    var rand = new Random();   
-            //    var direction = rand.Next(0, 2);
-            //    if (direction == 0)
-            //    {
-            //        newVelocity = new Vector2(9f,5f);
-            //    }
-            //    else
-            //    {
-            //        newVelocity = new Vector2(9f, -5f);
-            //    }
-
-            //    Velocity = newVelocity;
-            //    AttachedToPaddle = null;
-            //}
             Command command = _inputHandler.HandleInput();
             command?.Execute(this);
 
@@ -68,7 +60,7 @@ namespace PongGame
             }
         }
 
-        public void ResetBall()
+        public override void ResetPosition()
         {
             Velocity = new Vector2(0, 0);
             Location = _initialLocation;
