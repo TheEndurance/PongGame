@@ -35,7 +35,7 @@ namespace PongGame.GameObjects
         public void Draw(SpriteBatch spriteBatch)
         {
             string scoreText = $"{_player1Score} {Player1Name} : {Player2Name} {_player2Score}";
-            float scoreTextXPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
+            float scoreTextXPosition = (_gameBoundaries.Width / 2.0f) - _font.MeasureString(scoreText).X / 2;
             Vector2 scoreTextposition = new Vector2(scoreTextXPosition, _gameBoundaries.Height - 50);
 
             spriteBatch.DrawString(_font, scoreText, scoreTextposition, Color.Black);
@@ -43,8 +43,8 @@ namespace PongGame.GameObjects
             if (_gameStateManager.GameState == GameState.GameState.GameOver)
             {
                 string wonGameText = $"{WhoWonGame()} won the game!";
-                float wonGameXPosition = (_gameBoundaries.Width / 2) - _font.MeasureString(scoreText).X / 2;
-                Vector2 wonGamePosition = new Vector2(wonGameXPosition, _gameBoundaries.Height/2);
+                float wonGameXPosition = (_gameBoundaries.Width / 2.0f) - _font.MeasureString(wonGameText).X / 2;
+                Vector2 wonGamePosition = new Vector2(wonGameXPosition, 100);
                 spriteBatch.DrawString(_font, wonGameText, wonGamePosition, Color.Black);
             }
         }

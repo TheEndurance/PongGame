@@ -24,20 +24,20 @@ namespace PongGame
 
 
         public GameStateManager GameStateManager;
-        private SoundManager soundManager;
-        private GameObjects.GameObjects gameObjects;
-        private GameCommands gameCommands;
+        private SoundManager _soundManager;
+        private GameObjects.GameObjects _gameObjects;
+        private GameCommands _gameCommands;
         private InputHandler _player1InputHandler;
         private InputHandler _player2InputHandler;
         private InputHandler _ballInputHandler;
-        private Paddle player1Paddle;
-        private Paddle player2Paddle;
-        private Paddle computerPaddle;
-        private Ball ball;
-        private Score score;
-        private SoundEffect paddleBallHit;
-        private SoundEffect playerScored;
-        private SoundEffect applause;
+        private Paddle _player1Paddle;
+        private Paddle _player2Paddle;
+        private Paddle _computerPaddle;
+        private Ball _ball;
+        private Score _score;
+        private SoundEffect _paddleBallHit;
+        private SoundEffect _playerScored;
+        private SoundEffect _applause;
  
 
         public Game1()
@@ -55,8 +55,10 @@ namespace PongGame
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            gameCommands = new GameCommands();
-            GameStateManager = new GameStateManager(new InputHandler(new List<Func<Command>>{gameCommands.SpaceBarResetGameAction}));
+            _gameCommands = new GameCommands();
+            GameStateManager = GameStateManager.GetGameStateManager();
+            GameStateManager.InputHandler =
+                new InputHandler(new List<Func<Command>> {_gameCommands.SpaceBarResetGameAction});
             IsMouseVisible = true;
             base.Initialize();
         }
@@ -73,11 +75,11 @@ namespace PongGame
             // TODO: use this.Content to load your game content here
             
             //Sounds
-            paddleBallHit = Content.Load<SoundEffect>("sounds/click");
-            playerScored = Content.Load<SoundEffect>("sounds/ding");
-            applause = Content.Load<SoundEffect>("sounds/applause1");
+            _paddleBallHit = Content.Load<SoundEffect>("sounds/click");
+            _playerScored = Content.Load<SoundEffect>("sounds/ding");
+            _applause = Content.Load<SoundEffect>("sounds/applause1");
 
-            soundManager = new SoundManager(paddleBallHit, playerScored, applause);
+            _soundManager = new SoundManager(_paddleBallHit, _playerScored, _applause);
 
             //Textures
             Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/BatLeft");
@@ -87,22 +89,25 @@ namespace PongGame
 
             //Game boundary and starting locations
             Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
-            Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - RightPaddleTexture.Width, 0);
+            Vector2 player1PaddleLocation = new Vector2(0, gameBoundaries.Height / 2.0f - leftPaddleTexture.Height/2.0f);
+            Vector2 player2PaddleLocation = new Vector2(gameBoundaries.Width - RightPaddleTexture.Width, gameBoundaries.Height/2.0f - RightPaddleTexture.Height/2.0f);
+            Vector2 ballLocation = new Vector2(gameBoundaries.Width / 2.0f - ballTexture.Width / 2.0f,
+                gameBoundaries.Height / 2.0f - ballTexture.Height / 2.0f);
 
             //Input handlers
             _player1InputHandler =
-                new InputHandler(new List<Func<Command>> {gameCommands.AKeyAction, gameCommands.ZKeyAction});
+                new InputHandler(new List<Func<Command>> {_gameCommands.AKeyAction, _gameCommands.ZKeyAction});
             _player2InputHandler =
-                new InputHandler(new List<Func<Command>> {gameCommands.UpKeyAction, gameCommands.DownKeyAction});
-            _ballInputHandler = new InputHandler(new List<Func<Command>> {gameCommands.ReleaseBall});
+                new InputHandler(new List<Func<Command>> {_gameCommands.UpKeyAction, _gameCommands.DownKeyAction});
+            _ballInputHandler = new InputHandler(new List<Func<Command>> {_gameCommands.ReleaseBall});
            
             //Game objects
-            player1Paddle = new Paddle(leftPaddleTexture, Vector2.Zero, gameBoundaries,_player1InputHandler);
-            player2Paddle = new Paddle(RightPaddleTexture, player2PaddleLocation, gameBoundaries,_player2InputHandler);
-            ball = new Ball(ballTexture, new Vector2(100,100), new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
-            score = new Score(spriteFont, gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
+            _player1Paddle = new Paddle(leftPaddleTexture, player1PaddleLocation, gameBoundaries,_player1InputHandler);
+            _player2Paddle = new Paddle(RightPaddleTexture, player2PaddleLocation, gameBoundaries,_player2InputHandler);
+            _ball = new Ball(ballTexture, ballLocation, new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height),_ballInputHandler);
+            _score = new Score(spriteFont, gameBoundaries,GameStateManager,"Rawa Jalal","Satoshi Nakamoto");
 
-            gameObjects = new GameObjects.GameObjects { Score = score, Player1Paddle = player1Paddle, Player2Paddle = player2Paddle, Ball = ball };
+            _gameObjects = new GameObjects.GameObjects { Score = _score, Player1Paddle = _player1Paddle, Player2Paddle = _player2Paddle, Ball = _ball };
 
 
 
@@ -129,13 +134,13 @@ namespace PongGame
 
             if (GameStateManager.GameState == GameState.GameState.GameActive)
             {
-                player1Paddle.Update(gameTime, gameObjects);
-                player2Paddle.Update(gameTime, gameObjects);
-                ball.Update(gameTime, gameObjects);
+                _player1Paddle.Update(gameTime, _gameObjects);
+                _player2Paddle.Update(gameTime, _gameObjects);
+                _ball.Update(gameTime, _gameObjects);
             }
 
             GameStateManager.Update(gameTime);
-            score.Update(gameTime, gameObjects);
+            _score.Update(gameTime, _gameObjects);
             
 
 
@@ -152,10 +157,10 @@ namespace PongGame
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            player1Paddle.Draw(spriteBatch);
-            player2Paddle.Draw(spriteBatch);
-            ball.Draw(spriteBatch);
-            score.Draw(spriteBatch);
+            _player1Paddle.Draw(spriteBatch);
+            _player2Paddle.Draw(spriteBatch);
+            _ball.Draw(spriteBatch);
+            _score.Draw(spriteBatch);
             spriteBatch.End();
 
 

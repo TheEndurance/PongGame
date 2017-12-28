@@ -5,22 +5,28 @@ namespace PongGame.GameState
 {
     public class GameStateManager
     {
+        private static readonly GameStateManager _instance = new GameStateManager();
         private Mediator _mediator = Mediator.GetMediator();
-        private readonly InputHandler _inputHandler;
         private GameObjects.GameObjects _gameObjects;
+        public InputHandler InputHandler { get; set; }
         public GameState GameState { get; private set; }
 
-        public GameStateManager(InputHandler inputHandler)
+        private GameStateManager()
         {
-            _inputHandler = inputHandler;
             GameState = GameState.GameActive;
             _mediator.GameUpdated += SubscribeToGameUpdates;
             _mediator.GameUpdated += ManageGameState;
         }
 
+        public static GameStateManager GetGameStateManager()
+        {
+            return _instance;
+        }
+
+
         public void Update(GameTime gametime)
         {
-            Command command = _inputHandler.HandleInput();
+            Command command = InputHandler.HandleInput();
             command?.Execute();
         }
 

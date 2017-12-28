@@ -58,7 +58,10 @@ namespace PongGame.InputCommands
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                return new ResetGameCommand();
+                
+                
+                    return new ResetGameCommand(GameState.GameStateManager.GetGameStateManager().GameState);
+                
             }
             return null;
         }

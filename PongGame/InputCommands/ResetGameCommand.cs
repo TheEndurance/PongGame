@@ -6,6 +6,12 @@ namespace PongGame.InputCommands
 {
     public class ResetGameCommand : Command
     {
+        private readonly GameState.GameState gameState;
+        public ResetGameCommand(GameState.GameState gameState)
+        {
+            this.gameState = gameState;
+        }
+
         public override void Execute(Sprite sprite)
         {
             throw new NotImplementedException();
@@ -13,7 +19,11 @@ namespace PongGame.InputCommands
 
         public override void Execute()
         {
-            Mediator.GetMediator().OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameState.GameReset});
+            if (gameState == GameState.GameState.GameOver)
+            {
+                Mediator.GetMediator()
+                    .OnGameUpdated(new GameUpdatedEventArgs {GameState = GameState.GameState.GameReset});
+            }
         }
     }
 }
