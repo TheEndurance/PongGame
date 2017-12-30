@@ -1,4 +1,9 @@
-﻿using System;
+﻿/* 
+ * Programmer: Rawa Jalal
+ * Revision History:
+ *          12/25/2017: Created
+ */
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -20,8 +25,6 @@ namespace PongGame
         GraphicsDeviceManager graphics;
         //handles drawing sprites
         SpriteBatch spriteBatch;
-
-
 
         public GameStateManager GameStateManager;
         private SoundManager _soundManager;
@@ -82,9 +85,9 @@ namespace PongGame
             _soundManager = new SoundManager(_paddleBallHit, _playerScored, _applause);
 
             //Textures
-            Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/BatLeft");
-            Texture2D RightPaddleTexture = Content.Load<Texture2D>("images/BatRight");
-            Texture2D ballTexture = Content.Load<Texture2D>("images/Ball");
+            Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/leftPaddle");
+            Texture2D RightPaddleTexture = Content.Load<Texture2D>("images/rightPaddle");
+            Texture2D ballTexture = Content.Load<Texture2D>("images/ball");
             SpriteFont spriteFont = Content.Load<SpriteFont>("fonts/SpriteFont1");
 
             //Game boundary and starting locations
@@ -153,7 +156,7 @@ namespace PongGame
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();

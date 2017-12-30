@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿/* 
+ * Programmer: Rawa Jalal
+ * Revision History:
+ *          12/25/2017: Created
+ *          
+ */
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,15 +13,25 @@ using PongGame.SoundState;
 
 namespace PongGame
 {
+    /// <summary>
+    /// Mediator class which is responsible for mediating event handling
+    /// </summary>
     public class Mediator
     {
         private static readonly Mediator _instance = new Mediator();
 
+        /// <summary>
+        /// Constructor for mediator class
+        /// </summary>
         private Mediator()
         {
             
         }
 
+        /// <summary>
+        /// Static method responsible for retrieving the singleton instance of Mediator
+        /// </summary>
+        /// <returns>The singleton instance of the Mediator</returns>
         public static Mediator GetMediator()
         {
             return _instance;
@@ -29,6 +45,10 @@ namespace PongGame
 
         public event GameUpdatedHandler GameUpdated;
 
+        /// <summary>
+        /// Triggers the GameUpdated event
+        /// </summary>
+        /// <param name="args">The event arguments for a game update</param>
         public void OnGameUpdated(GameUpdatedEventArgs args)
         {
             if (GameUpdated != null)
@@ -37,6 +57,10 @@ namespace PongGame
             }
         }
 
+        /// <summary>
+        /// Triggers the SoundUpdated event
+        /// </summary>
+        /// <param name="args">The event arguments for a sound update</param>
         public void OnSoundUpdated(SoundUpdatedEventArgs args)
         {
             if (SoundUpdated != null)
