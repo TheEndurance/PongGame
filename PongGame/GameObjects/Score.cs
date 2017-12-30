@@ -61,7 +61,7 @@ namespace PongGame.GameObjects
 
             if (_gameStateManager.GameState == GameState.GameState.GameOver)
             {
-                string wonGameText = $"{WhoWonGame()} won the game!";
+                string wonGameText = $"{WhoWonGame()} won the game! Press the Space bar to restart the game.";
                 float wonGameXPosition = (_gameBoundaries.Width / 2.0f) - _font.MeasureString(wonGameText).X / 2;
                 Vector2 wonGamePosition = new Vector2(wonGameXPosition, 100);
                 spriteBatch.DrawString(_font, wonGameText, wonGamePosition, Color.White);

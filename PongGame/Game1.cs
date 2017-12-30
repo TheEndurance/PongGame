@@ -88,7 +88,7 @@ namespace PongGame
             Texture2D leftPaddleTexture = Content.Load<Texture2D>("images/leftPaddle");
             Texture2D RightPaddleTexture = Content.Load<Texture2D>("images/rightPaddle");
             Texture2D ballTexture = Content.Load<Texture2D>("images/ball");
-            SpriteFont spriteFont = Content.Load<SpriteFont>("fonts/SpriteFont1");
+            SpriteFont spriteFont = Content.Load<SpriteFont>("fonts/ArialFont");
 
             //Game boundary and starting locations
             Rectangle gameBoundaries = new Rectangle(0, 0, Window.ClientBounds.Width, Window.ClientBounds.Height);
